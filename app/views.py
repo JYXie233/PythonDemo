@@ -2,23 +2,14 @@ from flask import render_template, flash, redirect, session, url_for, request, g
 from flask.ext.login import login_user, logout_user, current_user, login_required
 from app import app, db, lm
 from .forms import LoginForm
-from .models import User
+from .models import User,Post
 
 @app.route('/')
 @app.route('/index')
 @login_required
 def index():
     user = g.user
-    posts = [
-        {
-            'author': {'nickname': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'nickname': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
+    posts = Post.query.order_by(Post.timestamp).limit(10).all()
     return render_template('index.html',
                            title='Home',
                            user=user,
@@ -42,7 +33,7 @@ def logout():
 @login_required
 def user(nickname):
     user = User.query.filter_by(nickname=nickname).first()
-    if user == None:
+    if user is None:
         flash('User %s not found.' % nickname)
         return redirect(url_for('index'))
     posts = [

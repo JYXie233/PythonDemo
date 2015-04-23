@@ -1,7 +1,18 @@
 {% extends "base.html" %}
 {% block content%}
-      <h1>Hello, {{ user.nickname }}!</h1>
-        {% for post in posts %}
-  <h1>{{post.author.nickname}} say: {{post.body}}</h1>
-  {%endfor%}
-{%endblock%}
+
+     {% for post in posts %}
+<div class="">
+
+    <p class="text-center">{{post.title}}</p>
+        <small><cite title="Source Title">{{post.author.nickname}}</cite></small>
+      <blockquote>
+      <p>{{post.timestamp}}</p>
+
+    <p class="muted">{{post.body}}</p>
+        </blockquote>
+</div>
+{%endfor%}
+
+
+    {%endblock%}
