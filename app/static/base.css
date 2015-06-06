@@ -1,4 +1,8 @@
 body {
-    padding-top: 70px;
-    bgColor:0xdbdbdb;
+    background-color:0xdbdbdb;
+}
+.bg{
+    background:url('http://youimg1.c-ctrip.com/target/tg/696/530/423/8c13399f0c97412eab117194d06450ad.jpg') no-repeat;
+    background-size: 100% 100%;
+    height:100%;
 }

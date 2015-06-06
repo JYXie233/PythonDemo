@@ -1,12 +1,13 @@
-from flask import render_template, flash, redirect, session, url_for, request, g
+from flask import render_template, flash, redirect, session, url_for, request, g,Blueprint
 from flask.ext.login import login_user, logout_user, current_user, login_required
-from app import app, db, lm
+from app import db, lm
 from .forms import LoginForm
 from .models import User,Post
 
-@app.route('/')
-@app.route('/index')
-@login_required
+views = Blueprint('views',__name__)
+
+@views.route('/')
+@views.route('/index')
 def index():
     user = g.user
     posts = Post.query.order_by(Post.timestamp).limit(10).all()
@@ -15,8 +16,11 @@ def index():
                            user=user,
                            posts=posts)
 
+@views.route('/table')
+def table():
+    return render_template('tables.html')
 
-@app.before_request
+@views.before_request
 def before_request():
     g.user = current_user
 
@@ -24,12 +28,12 @@ def before_request():
 def load_user(id):
     return User.query.get(int(id))
 
-@app.route('/logout')
+@views.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/user/<nickname>')
+@views.route('/user/<nickname>')
 @login_required
 def user(nickname):
     user = User.query.filter_by(nickname=nickname).first()
