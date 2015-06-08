@@ -5,15 +5,15 @@ from hashlib import md5
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nickName = db.Column(db.String(64), index=True, unique=True)
-    realName = db.Column(db.String(64), index=True, unique=True)
+    realName = db.Column(db.String(64), index=True)
     mobileNumber = db.Column(db.String(64), index=True, unique=True)
     email = db.Column(db.String(120), index=True, unique=True)
-    password = db.Column(db.String(120), index=True, unique=True)
+    password = db.Column(db.String(120))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-    role = db.Column(db.Integer, index=True, unique=True)
-    ipAddress = db.Column(db.String(64), index=True, unique=True)
-    provinces = db.Column(db.String(64), index=True, unique=True)
-    city = db.Column(db.String(64), index=True, unique=True)
+    role = db.Column(db.Integer, index=True)
+    ipAddress = db.Column(db.String(64), index=True)
+    provinces = db.Column(db.String(64), index=True)
+    city = db.Column(db.String(64), index=True)
 
     def is_authenticated(self):
         return True
