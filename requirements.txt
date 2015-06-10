@@ -3,11 +3,9 @@ blinker==1.3
 coverage==3.7.1
 decorator==3.4.2
 Flask==0.10
-Flask-Admin==1.0.9
 Flask-Babel==0.9
-Flask-Login==0.2.11
+Flask-Login
 Flask-Mail==0.9.1
-Flask-OpenID==1.2.4
 Flask-SQLAlchemy==2.0
 Flask-WhooshAlchemy==0.56
 Flask-WTF==0.11
@@ -29,3 +27,5 @@ Tempita==0.5.2
 Werkzeug==0.10.4
 Whoosh==2.6.0
 WTForms==2.0.2
+py-bcrypt==0.04
+Flask-Bcrypt==0.6.0

@@ -1,34 +1,29 @@
 __author__ = 'Tom'
 # coding=gbk
-import os
-from flask.ext.login import LoginManager
-from config import basedir
+
 from flask import Flask
-from flask.ext.admin import Admin
+from flask.ext.login import LoginManager
 from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.babelex import Babel
+from flask.ext.bcrypt import Bcrypt
 
 app = Flask(__name__)
 app.config.from_object('config')
+bcrypt = Bcrypt(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 db = SQLAlchemy(app)
-babel = Babel(app,default_locale='zh_CN')
-admin = Admin(app,name=u'闰土后台管理')
 
-from .models import User,Post
+from .admin.views import admin_bp
+from .users.views import users_bp
 
-lm = LoginManager()
-lm.init_app(app)
-lm.login_view = 'login'
+app.register_blueprint(admin_bp)
+app.register_blueprint(users_bp)
 
-from app.views import views
+from models import User
 
-app.register_blueprint(views,url_prefix='/')
-
-from app.admins import MyView
-
-admin.add_view(MyView(User, db.session,name=u'用户'))
+login_manager.login_view = 'users.login'
 
 
-@babel.localeselector
-def get_locale():
-    return 'zh_CN'
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get(int(id))

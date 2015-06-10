@@ -24,9 +24,6 @@ def table():
 def before_request():
     g.user = current_user
 
-@lm.user_loader
-def load_user(id):
-    return User.query.get(int(id))
 
 @views.route('/logout')
 def logout():

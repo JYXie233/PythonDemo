@@ -1,17 +1,17 @@
 __author__ = 'Tom'
-from app import db
+from app import db,bcrypt
 from hashlib import md5
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    nickName = db.Column(db.String(64), index=True, unique=True)
-    realName = db.Column(db.String(64), index=True)
-    mobileNumber = db.Column(db.String(64), index=True, unique=True)
-    email = db.Column(db.String(120), index=True, unique=True)
+    nickname = db.Column(db.String(64), index=True)
+    realname = db.Column(db.String(64), index=True)
+    mobilenumber = db.Column(db.String(64), index=True)
+    email = db.Column(db.String(120), index=True)
     password = db.Column(db.String(120))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     role = db.Column(db.Integer, index=True)
-    ipAddress = db.Column(db.String(64), index=True)
+    ipaddress = db.Column(db.String(64), index=True)
     provinces = db.Column(db.String(64), index=True)
     city = db.Column(db.String(64), index=True)
 
@@ -31,6 +31,11 @@ class User(db.Model):
             return str(self.id)  # python 3
     def avatar(self, size):
         return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (md5(self.email.encode('utf-8')).hexdigest(), size)
+
+    def __init__(self, name, email, password):
+        self.nickname = name
+        self.email = email
+        self.password = bcrypt.generate_password_hash(password)
 
     def __repr__(self):
         return '<User %r>' % (self.nickname)
