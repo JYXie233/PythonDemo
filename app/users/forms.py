@@ -1,27 +1,29 @@
 __author__ = 'tom'
 # -*- coding: utf8 -*-
 from flask_wtf import Form
-from wtforms import TextField, PasswordField
+from wtforms import StringField, PasswordField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
-from app.utils.validators import Unique
+from app.utils.validators import Unique,Length
 from app.models import User
 
 class LoginForm(Form):
-    username = TextField('Username', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
 
 
 class RegisterForm(Form):
     LANGUAGES = ['zh']
-    nickName = TextField(
+    nickName = StringField(
         'username',
         validators=[DataRequired(), Length(min=3, max=25), Unique(
             User,
-            User.nickname, message=u'用户名已经存在')]
+            User.nickname, message=u'该用户名已经存在')]
     )
-    email = TextField(
+    email = StringField(
         'email',
-        validators=[DataRequired(), Email(message=None), Length(min=6, max=40)]
+        validators=[DataRequired(), Email(message=None), Length(min=6, max=40), Unique(
+            User,
+            User.email, message=u'该邮箱已经存在')]
     )
     password = PasswordField(
         'password',
