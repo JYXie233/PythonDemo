@@ -14,6 +14,8 @@ class User(db.Model):
     ipaddress = db.Column(db.String(64), index=True)
     provinces = db.Column(db.String(64), index=True)
     city = db.Column(db.String(64), index=True)
+    isadmin = db.Column(db.Boolean)
+    lastlogindate = db.Column(db.DateTime)
 
     def is_authenticated(self):
         return True
@@ -32,10 +34,11 @@ class User(db.Model):
     def avatar(self, size):
         return 'http://www.gravatar.com/avatar/%s?d=mm&s=%d' % (md5(self.email.encode('utf-8')).hexdigest(), size)
 
-    def __init__(self, name, email, password):
+    def __init__(self, name, email, password, isadmin):
         self.nickname = name
         self.email = email
         self.password = bcrypt.generate_password_hash(password)
+        self.isadmin = isadmin
 
     def __repr__(self):
         return '<User %r>' % (self.nickname)

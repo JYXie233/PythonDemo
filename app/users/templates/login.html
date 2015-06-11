@@ -1,32 +1,88 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录</title>
+	<meta charset="UTF-8">
+   <link rel="stylesheet" type="text/css" href="{{ url_for('admin.static',filename='Css/bootstrap.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('admin.static',filename='Css/bootstrap-responsive.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('admin.static',filename='Css/style.css')}}" />
+    <script type="text/javascript" src="{{ url_for('admin.static',filename='Js/jquery.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('admin.static',filename='Js/jquery.sorted.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('admin.static',filename='Js/bootstrap.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('admin.static',filename='Js/ckform.js')}}"></script>
+    <script type="text/javascript" src="{{ url_for('admin.static',filename='Js/common.js')}}"></script>
+    <style type="text/css">
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #f5f5f5;
+        }
 
-{% block content %}
+        .form-signin {
+            max-width: 300px;
+            padding: 19px 29px 29px;
+            margin: 0 auto 20px;
+            background-color: #fff;
+            border: 1px solid #e5e5e5;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+            -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+        }
 
-<h1>Please login</h1>
-<br>
-<form class="form-signin" role="form" method="post" action="">
-  {{ form.csrf_token }}
-  <p>
-    {{ form.username(placeholder="username") }}
-    <span class="error">
-      {% if form.username.errors %}
+        .form-signin .form-signin-heading,
+        .form-signin .checkbox {
+            margin-bottom: 10px;
+        }
+
+        .form-signin input[type="text"],
+        .form-signin input[type="password"] {
+            font-size: 16px;
+            height: auto;
+            margin-bottom: 15px;
+            padding: 7px 9px;
+        }
+
+    </style>
+    <script lanage="javascript">
+        function refreshCode() {
+            document.getElementById("authcode_img").src = "/users/randCode/"+Math.random();
+        }
+    </script>
+</head>
+<body>
+<div class="container">
+      <form class="form-signin" role="form" method="post" action="">
+        {{ form.csrf_token }}
+        <h2 class="form-signin-heading">登录</h2>
+        <input type="text" name="username" class="input-block-level" placeholder="用户名">
+        {% if form.username.errors %}
         {% for error in form.username.errors %}
           {{ error }}
         {% endfor %}
       {% endif %}
-    </span>
-  </p>
-  <p>
-  {{ form.password(placeholder="password") }}
-    <span class="error">
-      {% if form.password.errors %}
+        <input type="password" name="password" class="input-block-level" placeholder="密码">
+        {% if form.password.errors %}
         {% for error in form.password.errors %}
           {{ error }}
         {% endfor %}
       {% endif %}
-    </span>
-  </p>
-  <button class="btn btn-sm btn-success" type="submit">Sign in</button>
-</form>
+        <input type="text" name="verify" class="input-medium" placeholder="验证码">
+          <div>
+        <img id="authcode_img" alt="验证码" src="/users/randCode/1" onClick="refreshCode()"/>
+    <!-- time 任意随机数（时间戳），防止页面缓存 导致验证码不能更新-->
+        </div>
+          {% if form.verify.errors %}
+        {% for error in form.verify.errors %}
+          {{ error }}
+        {% endfor %}
+      {% endif %}
 
-{% endblock %}
+        <p><button class="btn btn-large btn-primary" type="submit">登录</button></p>
+    </form>
+
+</div>
+</body>
+</html>

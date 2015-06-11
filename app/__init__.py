@@ -15,9 +15,11 @@ db = SQLAlchemy(app)
 
 from .admin.views import admin_bp
 from .users.views import users_bp
+from .home.views import home_bp
 
-app.register_blueprint(admin_bp)
-app.register_blueprint(users_bp)
+app.register_blueprint(admin_bp, url_prefix='/admin')
+app.register_blueprint(users_bp, url_prefix='/users')
+app.register_blueprint(home_bp, url_prefix='/')
 
 from models import User
 
@@ -27,3 +29,4 @@ login_manager.login_view = 'users.login'
 @login_manager.user_loader
 def load_user(id):
     return User.query.get(int(id))
+

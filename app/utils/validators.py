@@ -1,6 +1,22 @@
 __author__ = 'tom'
 # -*- coding: utf8 -*-
 from wtforms.validators import ValidationError
+from flask import session
+
+class RandCode(object):
+    def __init__(self, message=None):
+
+        if not message:
+            message=u'验证码错误'
+        self.message = message
+
+    def __call__(self, form, field):
+        if 'rand_code' in session:
+            randcode = session['rand_code']
+            print randcode,field.data
+            if randcode != field.data:
+                print 'yanzhenmacuowu'
+                raise ValidationError(self.message)
 
 class Unique(object):
     def __init__(self, model, field, message):
