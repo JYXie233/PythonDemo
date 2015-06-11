@@ -1,8 +1,8 @@
 __author__ = 'tom'
 #coding=utf-8
-from flask import flash,Blueprint,redirect,render_template,request,url_for,session,g
+from flask import flash,Blueprint,redirect,render_template,request,url_for,session,g,json
 from flask.ext.login import login_user, login_required, logout_user,current_user
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm,EditForm
 from app.models import User
 from app import db,bcrypt,app
 from app.utils.ImageUtils import create_validate_code
@@ -27,6 +27,34 @@ def index():
         return redirect(url_for('users.login'))
     users = User.query.filter_by(isadmin=True)
     return render_template('users/index.html',users = users)
+
+@users_bp.route('/edit/<userid>')
+@login_required
+def edit(userid):
+    if not g.user.isadmin:
+        return redirect(url_for('users.login'))
+    user = User.query.filter_by(id=userid).first()
+    return render_template('users/edit.html',user = user)
+
+@users_bp.route('/edit', methods=['GET', 'POST'])
+@login_required
+def editAction():
+    form = EditForm(request.form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            print 'validate'
+            user = User.query.filter_by(id=form.id.data).first()
+            if user is not None:
+                print user
+                if user.nickname != form.nickName.data:
+                    user.nickname = form.nickName.data
+                if form.password.data is not None:
+                    user.password = form.password.data
+                user.realname = form.realname.data
+                if user.nickname != form.nickName.data:
+                    user.email = form.email.data
+                return 'success'
+    return 'error'
 
 
 @users_bp.route('/login', methods=['GET', 'POST'])   # pragma: no cover

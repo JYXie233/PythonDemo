@@ -12,7 +12,6 @@ class LoginForm(Form):
     verify = StringField('verify',  validators=[DataRequired(), RandCode()])
 
 class RegisterForm(Form):
-    LANGUAGES = ['zh']
     nickName = StringField(
         'username',
         validators=[DataRequired(), Length(min=3, max=25), Unique(
@@ -34,4 +33,10 @@ class RegisterForm(Form):
         validators=[
             DataRequired(), EqualTo('password', message='Passwords must match.')
         ]
+    )
+
+class EditForm(Form):
+    nickname = StringField(
+        'nickname',
+        validators=[DataRequired(), Length(min=3, max=25)]
     )
