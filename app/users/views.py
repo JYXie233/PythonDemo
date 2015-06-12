@@ -80,18 +80,17 @@ def logout():
     '/add/', methods=['GET', 'POST'])   # pragma: no cover
 def add():
     form = RegisterForm()
-    print form.nickname.data
-    print form.nickname
-    if form.validate_on_submit():
-        user = User(
-            name=form.nickname.data,
-            email=form.email.data,
-            password=form.password.data,
-            isadmin= True
-        )
-        db.session.add(user)
-        db.session.commit()
-        return redirect(url_for('/users/index'))
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            user = User(
+                name=form.nickname.data,
+                email=form.email.data,
+                password=form.password.data,
+                isadmin= True
+            )
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('users.index'))
     return render_template('users/add.html', form=form)
 
 @users_bp.route(

@@ -1,6 +1,7 @@
 __author__ = 'Tom'
+#coding:utf-8
 from flask.ext.wtf import Form
-from wtforms import StringField,BooleanField,PasswordField
+from wtforms import StringField,TextField
 from wtforms.validators import DataRequired
 from app.utils.validators import Length
 

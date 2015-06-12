@@ -21,9 +21,9 @@
             <td>{{ article.title }}</td>
             <td>{{ article.create_date }}</td>
             <td>{{ article.edit_date }}</td>
-            <td>{{ article.user_id }}</td>
+            <td>{{ article.author.realname }}</td>
             <td>
-                <a href="edit/{{user.id}}">编辑</a>
+                <a href="edit/">编辑</a>
             </td>
         </tr>
         {% endfor %}

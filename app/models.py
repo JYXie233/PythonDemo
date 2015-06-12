@@ -52,5 +52,11 @@ class Post(db.Model):
     create_date = db.Column(db.DateTime)
     edit_date = db.Column(db.DateTime)
 
+    def __init__(self, title, user_id, create_date, body):
+        self.body = body
+        self.title = title
+        self.create_date = create_date
+        self.user_id = user_id
+
     def __repr__(self):
         return '<Post %r>' % (self.body)

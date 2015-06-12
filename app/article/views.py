@@ -6,6 +6,7 @@ from app.models import User,Post
 from app import db,bcrypt,app
 from app.utils.ImageUtils import create_validate_code
 import StringIO,datetime
+from .forms import ArticleForm
 import os,re
 from app.utils.uploader import Uploader
 
@@ -29,12 +30,28 @@ def index():
     return render_template('article/index.html',articles = articles)
 
 @login_required
-@article_bp.route('/add')
+@article_bp.route('/add/', methods=['GET', 'POST'])
 def add():
     if not g.user.isadmin:
         return redirect(url_for('users.login'))
-    articles = Post.query.all()
-    return render_template('article/add.html',articles = articles)
+    form = ArticleForm(request.form)
+    if request.method == 'POST':
+        print form.body.data
+        print form.title.data
+        if form.validate_on_submit():
+            print 'validate'
+            user = current_user
+            post = Post(
+                title=form.title.data,
+                user_id=user.id,
+                create_date=datetime.datetime.now(),
+                body=form.body.data
+            )
+
+            db.session.add(post)
+            db.session.commit()
+            return redirect(url_for('article.index'))
+    return render_template('article/add.html',form = form)
 
 @article_bp.route('/upload/', methods=['GET', 'POST', 'OPTIONS'])
 def upload():
