@@ -1,16 +1,13 @@
 {% extends 'users/layout.html' %}
 {% block content %}
-  {% if form.nickname.errors %}
-            {% for error in form.errors %}
-            <span style="color:red;">{{ error }}</span>
-            {% endfor %}
-            {% endif %}
-<form action="" method="post" class="definewidth m20" role="form">
+
+<form method="post" class="definewidth m20" role="form" action="/users/edit/{{user.id}}">
+     {{ form.csrf_token }}
     <input type="hidden" name="id" value="{{user.id}}" />
     <table class="table table-bordered table-hover definewidth m10">
         <tr>
             <td width="10%" class="tableleft">{{form.nickname.label}}</td>
-            <td><input type="text" name="nickname" value="{{user.nickname}}"/>
+            <td>{{form.nickname(value=user.nickname)}}
             {% if form.nickname.errors %}
             {% for error in form.nickname.errors %}
             <span style="color:red;">{{ error }}</span>
@@ -21,7 +18,7 @@
         </tr>
         <tr>
             <td class="tableleft">{{form.password.label}}</td>
-            <td><input type="password" name="password" />
+            <td>{{form.password}}
             {% if form.password.errors %}
             {% for error in form.password.errors %}
             <span style="color:red;">{{ error }}</span>
@@ -32,7 +29,7 @@
         </tr>
         <tr>
             <td class="tableleft">{{form.realname.label}}</td>
-            <td><input type="text" name="realname" value="{{user.realname}}"/>
+            <td>{{form.realname(value=user.realname) }}
             {% if form.realname.errors %}
             {% for error in form.realname.errors %}
             <span style="color:red;">{{ error }}</span>
@@ -43,7 +40,7 @@
         </tr>
         <tr>
             <td class="tableleft">{{form.email.label}}</td>
-            <td><input type="text" name="email" value="{{user.email}}"/>
+            <td>{{form.email(value=user.email)}}
             {% if form.email.errors %}
             {% for error in form.email.errors %}
             <span style="color:red;">{{ error }}</span>
@@ -56,17 +53,10 @@
         <tr>
             <td class="tableleft"></td>
             <td>
-                <button type="submit" class="btn btn-primary" type="button">保存</button>				 &nbsp;&nbsp;<button type="button" class="btn btn-success" name="backid" id="backid">返回列表</button>
+                <button type="submit" class="btn btn-primary" type="button">保存</button>
+                &nbsp;&nbsp;<button type="button" class="btn btn-success" onclick="url_for('/users/index')">返回列表</button>
             </td>
         </tr>
     </table>
 </form>
-<script>
-    $(function () {
-		$('#backid').click(function(){
-				window.location.href="/users/index";
-		 });
-
-    });
-</script>
 {% endblock%}

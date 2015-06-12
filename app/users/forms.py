@@ -12,27 +12,31 @@ class LoginForm(Form):
     verify = StringField('verify',  validators=[DataRequired(), RandCode()])
 
 class RegisterForm(Form):
-    nickName = StringField(
-        'username',
+    nickname = StringField(
+        u'用户名',
         validators=[DataRequired(), Length(min=3, max=25), Unique(
             User,
             User.nickname, message=u'该用户名已经存在')]
     )
     email = StringField(
-        'email',
+        u'邮箱',
         validators=[DataRequired(), Email(message=None), Length(min=6, max=40), Unique(
             User,
             User.email, message=u'该邮箱已经存在')]
     )
     password = PasswordField(
-        'password',
+        u'密码',
         validators=[DataRequired(), Length(min=6, max=25)]
     )
     confirm = PasswordField(
-        'Repeat password',
+        u'再次输入密码',
         validators=[
             DataRequired(), EqualTo('password', message='Passwords must match.')
         ]
+    )
+    realname = StringField(
+        u'真实姓名',
+        validators=[Optional(), Length(min=2, max=25)]
     )
 
 class EditForm(Form):
@@ -46,6 +50,6 @@ class EditForm(Form):
     )
     realname = StringField(
         u'真实姓名',
-        validators=[Optional(), Length(min=3, max=25)]
+        validators=[Optional(), Length(min=2, max=25)]
     )
     email = StringField(u'邮箱地址', validators=[DataRequired(), Email(message=None), Length(min=6, max=40)])

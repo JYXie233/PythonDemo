@@ -7,10 +7,10 @@
 <form class="form-signin" role="form" method="post" action="">
   {{ form.csrf_token }}
   <p>
-    {{ form.nickName(placeholder="username") }}
+    {{ form.nickname(placeholder="username") }}
     <span class="error">
-      {% if form.nickName.errors %}
-        {% for error in form.nickName.errors %}
+      {% if form.nickname.errors %}
+        {% for error in form.nickname.errors %}
           {{ error }}
         {% endfor %}
       {% endif %}

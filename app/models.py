@@ -49,7 +49,8 @@ class Post(db.Model):
     timestamp = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     title = db.Column(db.String(140))
-
+    create_date = db.Column(db.DateTime)
+    edit_date = db.Column(db.DateTime)
 
     def __repr__(self):
         return '<Post %r>' % (self.body)

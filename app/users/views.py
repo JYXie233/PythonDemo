@@ -1,6 +1,6 @@
 __author__ = 'tom'
 #coding=utf-8
-from flask import flash,Blueprint,redirect,render_template,request,url_for,session,g,json
+from flask import flash,Blueprint,redirect,render_template,request,url_for,session,g,jsonify
 from flask.ext.login import login_user, login_required, logout_user,current_user
 from .forms import LoginForm, RegisterForm, EditForm
 from app.models import User
@@ -40,13 +40,10 @@ def edit(userid):
         if form.validate_on_submit():
             print 'validate'
             form.populate_obj(user)
-            user.save()
             db.session.commit()
             flash(u'保存成功')
             return redirect(url_for('users.index'))
-        else:
-            flash(u'表单验证失败')
-    return render_template('users/edit.html',user = user, form = form)
+    return render_template('/users/edit.html',user = user, form = form)
 
 
 @users_bp.route('/login', methods=['GET', 'POST'])   # pragma: no cover
@@ -80,12 +77,30 @@ def logout():
 
 
 @users_bp.route(
+    '/add/', methods=['GET', 'POST'])   # pragma: no cover
+def add():
+    form = RegisterForm()
+    print form.nickname.data
+    print form.nickname
+    if form.validate_on_submit():
+        user = User(
+            name=form.nickname.data,
+            email=form.email.data,
+            password=form.password.data,
+            isadmin= True
+        )
+        db.session.add(user)
+        db.session.commit()
+        return redirect(url_for('/users/index'))
+    return render_template('users/add.html', form=form)
+
+@users_bp.route(
     '/register/', methods=['GET', 'POST'])   # pragma: no cover
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
         user = User(
-            name=form.nickName.data,
+            name=form.nickname.data,
             email=form.email.data,
             password=form.password.data,
             isadmin= True
