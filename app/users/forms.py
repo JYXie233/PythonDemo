@@ -2,7 +2,7 @@ __author__ = 'tom'
 # -*- coding: utf8 -*-
 from flask_wtf import Form
 from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms.validators import DataRequired, Length, Email, EqualTo,Required,Optional
 from app.utils.validators import Unique,Length,RandCode
 from app.models import User
 
@@ -37,6 +37,15 @@ class RegisterForm(Form):
 
 class EditForm(Form):
     nickname = StringField(
-        'nickname',
+        u'登录名',
         validators=[DataRequired(), Length(min=3, max=25)]
     )
+    password = PasswordField(
+        u'密码',
+        validators=[Optional(), Length(min=3, max=25)]
+    )
+    realname = StringField(
+        u'真实姓名',
+        validators=[Optional(), Length(min=3, max=25)]
+    )
+    email = StringField(u'邮箱地址', validators=[DataRequired(), Email(message=None), Length(min=6, max=40)])
