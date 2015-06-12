@@ -1,0 +1,65 @@
+{% extends 'users/layout.html' %}
+{% block content %}
+<form class="form-inline definewidth m20" action="index.html" method="get">    
+    用户名称：
+    <input type="text" name="username" id="username"class="abc input-default" placeholder="" value="">&nbsp;&nbsp;  
+    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增用户</button>
+</form>
+<table class="table table-bordered table-hover definewidth m10">
+    <thead>
+    <tr>
+        <th>用户id</th>
+        <th>用户名称</th>
+        <th>真实姓名</th>
+        <th>最后登录时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+
+        {% for user in users %}
+        <tr>
+            <td>{{ user.id }}</td>
+            <td>{{ user.nickname }}</td>
+            <td>{{ user.realname }}</td>
+            <td>{{ user.lastlogindate }}</td>
+            <td>
+                <a href="edit/{{user.id}}">编辑</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+
+
+</table>
+{% endblock %}
+
+<script>
+    $(function () {
+        
+
+		$('#addnew').click(function(){
+
+				window.location.href="add.html";
+		 });
+
+
+    });
+
+	function del(id)
+	{
+		
+		
+		if(confirm("确定要删除吗？"))
+		{
+		
+			var url = "index.html";
+			
+			window.location.href=url;		
+		
+		}
+	
+	
+	
+	
+	}
+</script>
