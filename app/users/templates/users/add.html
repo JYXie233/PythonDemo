@@ -61,6 +61,17 @@
 
         </tr>
         <tr>
+            <td class="tableleft">{{form.role.label}}</td>
+            <td>{{form.role()}}
+            {% if form.role.errors %}
+            {% for error in form.role.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
+
+        </tr>
+        <tr>
             <td class="tableleft"></td>
             <td>
                 <button type="submit" class="btn btn-primary" type="button" >保存</button>

@@ -12,6 +12,7 @@
         <th>用户名称</th>
         <th>真实姓名</th>
         <th>最后登录时间</th>
+        <th>用户角色</th>
         <th>操作</th>
     </tr>
     </thead>
@@ -22,6 +23,7 @@
             <td>{{ user.nickname }}</td>
             <td>{{ user.realname }}</td>
             <td>{{ user.lastlogindate }}</td>
+            <td>{{ user.role.role }}</td>
             <td>
                 <a href="edit/{{user.id}}">编辑</a>
             </td>

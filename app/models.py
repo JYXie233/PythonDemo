@@ -10,12 +10,12 @@ class User(db.Model):
     email = db.Column(db.String(120), index=True)
     password = db.Column(db.String(120))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
-    role = db.Column(db.Integer, index=True)
     ipaddress = db.Column(db.String(64), index=True)
     provinces = db.Column(db.String(64), index=True)
     city = db.Column(db.String(64), index=True)
     isadmin = db.Column(db.Boolean)
     lastlogindate = db.Column(db.DateTime)
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
 
     def is_authenticated(self):
         return True
@@ -60,3 +60,12 @@ class Post(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % (self.body)
+
+class Role(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    role = db.Column(db.String(20))
+    roletype = db.Column(db.Integer)
+    user_id=db.relationship('User',backref='role',lazy='dynamic')
+
+    def __repr__(self):
+        return '<Post %r>' % (self.role)

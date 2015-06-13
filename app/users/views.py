@@ -29,7 +29,8 @@ def index():
     users = User.query.filter_by(isadmin=True)
     return render_template('users/index.html',users = users)
 
-@users_bp.route('/edit/<userid>', methods=['GET', 'POST'])
+@users_bp.route('/edit/<userid>', methods=['GET'])
+@users_bp.route('/edit/',methods=['POST'])
 @login_required
 def edit(userid):
     if not g.user.isadmin:
@@ -37,6 +38,7 @@ def edit(userid):
     user = User.query.filter_by(id=userid).first()
     form = EditForm(request.form)
     if request.method == 'POST':
+        user = User.query.filter_by(id=form.id).first()
         if form.validate_on_submit():
             print 'validate'
             form.populate_obj(user)
@@ -88,6 +90,7 @@ def add():
                 password=form.password.data,
                 isadmin= True
             )
+            user.role_id = form.role.data.id
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('users.index'))

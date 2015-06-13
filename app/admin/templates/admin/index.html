@@ -68,8 +68,16 @@ function loadContent(url){
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header" id="title">Dashboard</h1>
-            <iframe src="/users/index" id="content" name="content" width="100%" onLoad="iFrameHeight()" frameborder="0" ></iframe>
+
+            <div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title" id="title">用户管理</h3>
+  </div>
+  <div class="panel-body">
+    <iframe src="/users/index" id="content" name="content" width="100%" onLoad="iFrameHeight()" frameborder="0" ></iframe>
+  </div>
+</div>
+
 <script type="text/javascript" language="javascript">
 function iFrameHeight() {
 var ifm= document.getElementById("content");

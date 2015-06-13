@@ -1,7 +1,7 @@
 {% extends 'users/layout.html' %}
 {% block content %}
 
-<form method="post" class="definewidth m20" role="form" action="/users/edit/{{user.id}}">
+<form method="post" class="definewidth m20" role="form" action="/users/edit/">
      {{ form.csrf_token }}
     <input type="hidden" name="id" value="{{user.id}}" />
     <table class="table table-bordered table-hover definewidth m10">
