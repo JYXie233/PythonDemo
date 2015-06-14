@@ -1,4 +1,5 @@
 __author__ = 'Tom'
+#coding=utf-8
 from app import db,bcrypt
 from hashlib import md5
 
@@ -16,6 +17,7 @@ class User(db.Model):
     isadmin = db.Column(db.Boolean)
     lastlogindate = db.Column(db.DateTime)
     role_id = db.Column(db.Integer, db.ForeignKey('role.id'))
+    sex_id = db.Column(db.Integer, db.ForeignKey('sex.id'))
 
     def is_authenticated(self):
         return True
@@ -65,7 +67,17 @@ class Role(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     role = db.Column(db.String(20))
     roletype = db.Column(db.Integer)
-    user_id=db.relationship('User',backref='role',lazy='dynamic')
+    users=db.relationship('User',backref='role',lazy='dynamic')
 
     def __repr__(self):
-        return '<Post %r>' % (self.role)
+        return '<Post %r>' % (self.roletype)
+
+
+class Sex(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    sexname = db.Column(db.String(20))
+    sex = db.Column(db.Integer)
+    users=db.relationship('User',backref='sex',lazy='dynamic')
+
+    def __repr__(self):
+        return '<Post %r>' % (self.sex)

@@ -1,17 +1,20 @@
 {% extends 'users/layout.html' %}
 {% block content %}
-<form class="form-inline definewidth m20" action="index.html" method="get">    
-    用户名称：
-    <input type="text" name="username" id="username"class="abc input-default" placeholder="" value="">&nbsp;&nbsp;  
-    <button type="submit" class="btn btn-primary">查询</button>&nbsp;&nbsp; <button type="button" class="btn btn-success" id="addnew">新增用户</button>
-</form>
+
+<div class="container-fluid">
+<button type="button" class=" btn btn-sm btn-info" id="addnew">新增文章</button>
+</div>
+<div class="clearfix" style="margin-bottom: 10px;"></div>
+<div class="form-actions">
 <table class="table table-bordered table-hover definewidth m10">
     <thead>
     <tr>
         <th>文章标题</th>
+
         <th>创建时间</th>
         <th>修改时间</th>
-        <th>创建人</th>
+        <th>创建人真实姓名</th>
+        <th>创建人账号</th>
         <th>操作</th>
     </tr>
     </thead>
@@ -19,18 +22,19 @@
         {% for article in articles %}
         <tr>
             <td>{{ article.title }}</td>
+
             <td>{{ article.create_date }}</td>
             <td>{{ article.edit_date }}</td>
             <td>{{ article.author.realname }}</td>
+            <td>{{ article.author.nickname }}</td>
             <td>
-                <a href="edit/">编辑</a>
+                <a href="edit/{{article.id}}" class="btn btn-info btn-sm" role="button">编辑</a>
+                <a href="/article/del/{{article.id}}" class="btn btn-danger btn-sm" role="button">删除</a>
             </td>
         </tr>
         {% endfor %}
-
-
-
 </table>
+    </div>
 
 <script>
     $(function () {

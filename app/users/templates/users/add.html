@@ -15,7 +15,17 @@
             </td>
 
         </tr>
+<tr>
+            <td width="10%" class="tableleft">{{form.sex.label}}</td>
+            <td>{{form.sex()}}
+            {% if form.nickname.errors %}
+            {% for error in form.nickname.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
 
+        </tr>
         <tr>
             <td class="tableleft">{{form.realname.label}}</td>
             <td>{{form.realname(value="")}}
@@ -65,6 +75,39 @@
             <td>{{form.role()}}
             {% if form.role.errors %}
             {% for error in form.role.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
+
+        </tr>
+        <tr>
+            <td class="tableleft">{{form.mobilenumber.label}}</td>
+            <td>{{form.mobilenumber()}}
+            {% if form.mobilenumber.errors %}
+            {% for error in form.mobilenumber.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
+
+        </tr>
+        <tr>
+            <td class="tableleft">{{form.provinces.label}}</td>
+            <td>{{form.provinces()}}
+            {% if form.provinces.errors %}
+            {% for error in form.provinces.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
+
+        </tr>
+         <tr>
+            <td class="tableleft">{{form.city.label}}</td>
+            <td>{{form.city()}}
+            {% if form.city.errors %}
+            {% for error in form.city.errors %}
             <span style="color:red;">{{ error }}</span>
             {% endfor %}
             {% endif %}

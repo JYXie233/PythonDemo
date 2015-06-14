@@ -1,52 +1,80 @@
-{% extends "base.html" %}
 
-{% block content %}
+<form method="post" class="definewidth m20" role="form" action="/users/add/">
+ {{ form.csrf_token }}
+    <table class="table table-bordered table-hover definewidth m10">
+        <tr>
+            <td width="10%" class="tableleft">{{form.nickname.label}}</td>
+            <td>{{form.nickname(value="")}}
+            {% if form.nickname.errors %}
+            {% for error in form.nickname.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
 
-<h1>Please Register</h1>
-<br>
-<form class="form-signin" role="form" method="post" action="">
-  {{ form.csrf_token }}
-  <p>
-    {{ form.nickname(placeholder="username") }}
-    <span class="error">
-      {% if form.nickname.errors %}
-        {% for error in form.nickname.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
-  </p>
-  <p>
-  {{ form.email(placeholder="email") }}
-    <span class="error">
-      {% if form.email.errors %}
-        {% for error in form.email.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
-  </p>
-  <p>
-  {{ form.password(placeholder="password") }}
-    <span class="error">
-      {% if form.password.errors %}
-        {% for error in form.password.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
-  </p>
-  <p>
-  {{ form.confirm(placeholder="confirm") }}
-    <span class="error">
-      {% if form.confirm.errors %}
-        {% for error in form.confirm.errors %}
-          {{ error }}
-        {% endfor %}
-      {% endif %}
-    </span>
-  </p>
-  <button class="btn btn-sm btn-success" type="submit">Register!</button>
+        </tr>
+
+        <tr>
+            <td class="tableleft">{{form.realname.label}}</td>
+            <td>{{form.realname(value="")}}
+            {% if form.realname.errors %}
+            {% for error in form.realname.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
+
+        </tr>
+        <tr>
+            <td class="tableleft">{{form.email.label}}</td>
+            <td>{{form.email(value="")}}
+            {% if form.email.errors %}
+            {% for error in form.email.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
+
+        </tr>
+<tr>
+            <td class="tableleft">{{form.password.label}}</td>
+            <td>{{form.password(value="")}}
+            {% if form.password.errors %}
+            {% for error in form.password.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
+
+        </tr>
+        <tr>
+            <td class="tableleft">{{form.confirm.label}}</td>
+            <td>{{form.confirm(value="")}}
+            {% if form.confirm.errors %}
+            {% for error in form.confirm.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
+
+        </tr>
+        <tr>
+            <td class="tableleft">{{form.role.label}}</td>
+            <td>{{form.role()}}
+            {% if form.role.errors %}
+            {% for error in form.role.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+            </td>
+
+        </tr>
+        <tr>
+            <td class="tableleft"></td>
+            <td>
+                <button type="submit" class="btn btn-primary" type="button" >保存</button>
+                &nbsp;&nbsp;<button type="button" class="btn btn-success" onclick="url_for('/users/index')">返回列表</button>
+            </td>
+        </tr>
+    </table>
 </form>
-
-{% endblock %}

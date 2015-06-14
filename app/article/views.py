@@ -29,6 +29,16 @@ def index():
     articles = Post.query.all()
     return render_template('article/index.html',articles = articles)
 
+@article_bp.route('/del/<id>')
+@login_required
+def delete(id):
+    if not g.user.isadmin:
+        return redirect(url_for('users.login'))
+    article = Post.query.filter_by(id=id).first()
+    db.session.delete(article)
+    db.session.commit()
+    return redirect(url_for('.index'))
+
 @login_required
 @article_bp.route('/add/', methods=['GET', 'POST'])
 def add():
@@ -52,6 +62,32 @@ def add():
             db.session.commit()
             return redirect(url_for('article.index'))
     return render_template('article/add.html',form = form)
+
+
+@article_bp.route('/edit/<id>', methods=['GET'])
+@article_bp.route('/edit/<id>',methods=['POST'])
+@login_required
+def edit(id):
+    if not g.user.isadmin:
+        return redirect(url_for('users.login'))
+    post = Post.query.filter_by(id=id).first()
+    form = ArticleForm(request.form)
+    if request.method == 'POST':
+        if form.validate_on_submit():
+            print 'validate'
+            form.populate_obj(post)
+            db.session.commit()
+            flash(u'保存成功')
+            return redirect(url_for('article.index'))
+    return render_template('/article/edit.html',post = post, form = form)
+
+@article_bp.route('/edithelper/<id>', methods=['GET'])
+@login_required
+def edithelper(id):
+    if not g.user.isadmin:
+        return redirect(url_for('users.login'))
+    post = Post.query.filter_by(id=id).first()
+    return post.body
 
 @article_bp.route('/upload/', methods=['GET', 'POST', 'OPTIONS'])
 def upload():

@@ -1,54 +1,24 @@
 {% extends 'users/layout.html' %}
 {% block content %}
 
-<form method="post" class="definewidth m20" role="form" action="/users/edit/">
-     {{ form.csrf_token }}
+<form method="post" class="definewidth m20" role="form" action="/users/edit/{{user.id}}">
     <input type="hidden" name="id" value="{{user.id}}" />
+
     <table class="table table-bordered table-hover definewidth m10">
-        <tr>
-            <td width="10%" class="tableleft">{{form.nickname.label}}</td>
-            <td>{{form.nickname(value=user.nickname)}}
-            {% if form.nickname.errors %}
-            {% for error in form.nickname.errors %}
+        {{ form.csrf_token }}
+{% for field in form %}
+    <tr>
+        <td width="20%" class="tableleft">{{ field.label }} {% if field.flags.required %}<span style="color:red;">*</span>{% endif %}</td>
+        {%set key = user[field.name] %}
+        <td>{{ field(value=key or '') }}
+         {% if field.errors %}
+            {% for error in field.errors %}
             <span style="color:red;">{{ error }}</span>
             {% endfor %}
             {% endif %}
-            </td>
-
-        </tr>
-        <tr>
-            <td class="tableleft">{{form.password.label}}</td>
-            <td>{{form.password}}
-            {% if form.password.errors %}
-            {% for error in form.password.errors %}
-            <span style="color:red;">{{ error }}</span>
-            {% endfor %}
-            {% endif %}
-            </td>
-
-        </tr>
-        <tr>
-            <td class="tableleft">{{form.realname.label}}</td>
-            <td>{{form.realname(value=user.realname) }}
-            {% if form.realname.errors %}
-            {% for error in form.realname.errors %}
-            <span style="color:red;">{{ error }}</span>
-            {% endfor %}
-            {% endif %}
-            </td>
-
-        </tr>
-        <tr>
-            <td class="tableleft">{{form.email.label}}</td>
-            <td>{{form.email(value=user.email)}}
-            {% if form.email.errors %}
-            {% for error in form.email.errors %}
-            <span style="color:red;">{{ error }}</span>
-            {% endfor %}
-            {% endif %}
-            </td>
-
-        </tr>
+        </td>
+    </tr>
+{% endfor %}
 
         <tr>
             <td class="tableleft"></td>

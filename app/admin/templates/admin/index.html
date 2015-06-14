@@ -23,11 +23,9 @@
                 $("#title").html($(this).find("a").html());
             });
         });
-function loadContent(url){
-    $("#content",parent.document.body).attr("src",url);
-}
-
-
+    function loadContent(url){
+        $("#content",parent.document.body).attr("src",url);
+    }
     </script>
 </head>
 <body>
@@ -62,7 +60,7 @@ function loadContent(url){
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar" id="menu">
                 <li class="active"><a href="#" onclick="loadContent('/users/index')">用户管理 </a></li>
-                <li><a href="#"  onclick="loadContent('/article/index')">文章管理</a></li>
+                <li><a href="#" onclick="loadContent('/article/index')">文章管理</a></li>
                 <li><a href="#">Analytics</a></li>
                 <li><a href="#">Export</a></li>
             </ul>
@@ -70,27 +68,18 @@ function loadContent(url){
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 
             <div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title" id="title">用户管理</h3>
-  </div>
-  <div class="panel-body">
-    <iframe src="/users/index" id="content" name="content" width="100%" onLoad="iFrameHeight()" frameborder="0" ></iframe>
-  </div>
-</div>
+                <div class="panel-heading">
+                    <h3 class="panel-title" id="title">用户管理</h3>
+                </div>
+                <div class="panel-body">
+                    <iframe src="/users/index" id="content" name="content" width="100%" frameborder="0"></iframe>
+                </div>
+            </div>
 
-<script type="text/javascript" language="javascript">
-function iFrameHeight() {
-var ifm= document.getElementById("content");
-var subWeb = document.frames ? document.frames["content"].document : ifm.contentDocument;
-if(ifm != null && subWeb != null) {
-   ifm.height = subWeb.body.scrollHeight;
-}
-}
-</script>
+
         </div>
 
     </div>
 </div>
-
 </body>
 </html>

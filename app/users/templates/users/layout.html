@@ -15,8 +15,13 @@
           function url_for(url){
             window.location.href=url;
         }
-
+$(window.parent.document).find("#content").load(function(){
+var main = $(window.parent.document).find("#content");
+var thisheight = $(document).height()+30;
+main.height(thisheight);
+});
     </script>
+
 
 
     <style type="text/css">
