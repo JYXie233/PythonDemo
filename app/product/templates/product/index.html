@@ -1,0 +1,75 @@
+{% extends 'users/layout.html' %}
+{% block content %}
+
+<div class="container-fluid">
+  <button type="button" class="btn btn-success btn-sm" id="addnew">新增用户</button>
+</div>
+<div class="clearfix" style="margin-bottom: 10px;"></div>
+<table class="table table-bordered table-hover definewidth m10">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>标题</th>
+        <th>产品描述</th>
+        <th>价格</th>
+        <th>会员价格</th>
+        <th>商家</th>
+        <th>产地</th>
+        <th>销售量</th>
+        <th>图片</th>
+        <th>链接</th>
+        <th>创建时间</th>
+        <th>修改时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+<tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.title }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.price }}</td>
+            <td>{{ product.vipprice }}</td>
+            <td>{{ product.shopkeeper }}</td>
+            <td>{{ product.yieldly }}</td>
+            <td>{{ product.sellcount }}</td>
+            <td>{{ product.image }}</td>
+            <td>{{ product.url }}</td>
+            <td>{{ product.createdate }}</td>
+            <td>{{ product.editdate }}</td>
+
+            <td>
+                <a href="/product/{{product.id}}">编辑</a>
+                <a href="/product/del/{{product.id}}">删除</a>
+                {%if product.status.status == 1%}
+                    <a href="/product/del/{{product.id}}">禁用</a>
+                {%else%}
+                    <a href="/product/del/{{product.id}}">启用</a>
+                {%endif%}
+            </td>
+        </tr>
+        {% endfor %}
+
+
+</tbody>
+</table>
+
+                    </div>
+    </div>
+
+
+<script>
+    $(function () {
+
+
+		$('#addnew').click(function(){
+
+				window.location.href="/product/add/";
+		 });
+
+
+    });
+
+</script>
+{% endblock %}

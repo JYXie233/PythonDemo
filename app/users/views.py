@@ -3,8 +3,8 @@ __author__ = 'tom'
 from flask import flash,Blueprint,redirect,render_template,request,url_for,session,g,jsonify
 from flask.ext.login import login_user, login_required, logout_user,current_user
 from .forms import LoginForm, RegisterForm, EditForm
-from app.models import User
-from app import db,bcrypt,app
+from app.models import User,Role
+from app import db,bcrypt,app,checkAdmin
 from app.utils.ImageUtils import create_validate_code
 import StringIO,datetime
 
@@ -23,18 +23,24 @@ users_bp = Blueprint(
 @users_bp.route('/')
 @users_bp.route('/index')
 @login_required
+@checkAdmin
 def index():
-    if not g.user.isadmin:
-        return redirect(url_for('users.login'))
-    users = User.query.filter_by(isadmin=True)
+    # users = User.query.filter_by(role_id=Role.query.filter_by(roletype=1).first().roletype)
+    users = User.query.join(User.role).filter(Role.roletype==1)
     return render_template('users/index.html',users = users)
 
+@users_bp.route('/member')
+@login_required
+@checkAdmin
+def member():
+    # users = User.query.filter_by(role_id=Role.query.filter_by(roletype=1).first().roletype)
+    users = User.query.join(User.role).filter(Role.roletype==2)
+    return render_template('users/index.html',users = users)
 
 @users_bp.route('/del/<userid>')
 @login_required
+@checkAdmin
 def delete(userid):
-    if not g.user.isadmin:
-        return redirect(url_for('users.login'))
     users = User.query.filter_by(id=userid).first()
     db.session.delete(users)
     db.session.commit()
@@ -43,11 +49,13 @@ def delete(userid):
 @users_bp.route('/edit/<userid>', methods=['GET'])
 @users_bp.route('/edit/<userid>',methods=['POST'])
 @login_required
+@checkAdmin
 def edit(userid):
     if not g.user.isadmin:
         return redirect(url_for('users.login'))
     user = User.query.filter_by(id=userid).first()
-    form = EditForm(request.form)
+    form = EditForm()
+
     if request.method == 'POST':
         if form.validate_on_submit():
             print 'validate'
@@ -55,6 +63,9 @@ def edit(userid):
             db.session.commit()
             flash(u'保存成功')
             return redirect(url_for('users.index'))
+
+    form.sex.data=user.sex
+    form.role.data=user.role
     return render_template('/users/edit.html',user = user, form = form)
 
 
@@ -88,8 +99,8 @@ def logout():
     return redirect(url_for('home.index'))
 
 
-@users_bp.route(
-    '/add/', methods=['GET', 'POST'])   # pragma: no cover
+@users_bp.route('/add/', methods=['GET', 'POST'])   # pragma: no cover
+@checkAdmin
 def add():
     form = RegisterForm()
     if request.method == 'POST':
@@ -106,8 +117,7 @@ def add():
             return redirect(url_for('users.index'))
     return render_template('users/add.html', form=form)
 
-@users_bp.route(
-    '/register/', methods=['GET', 'POST'])   # pragma: no cover
+@users_bp.route('/register/', methods=['GET', 'POST'])   # pragma: no cover
 def register():
     form = RegisterForm()
     if form.validate_on_submit():

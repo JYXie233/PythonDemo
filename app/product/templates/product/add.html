@@ -1,0 +1,30 @@
+{% extends 'users/layout.html' %}
+{% block content %}
+
+<form method="post" class="definewidth m20" role="form" action="/product/add/">
+
+    <table class="table table-bordered table-hover definewidth m10">
+        {{ form.csrf_token }}
+{% for field in form %}
+    <tr>
+        <td width="20%" class="tableleft">{{ field.label }} {% if field.flags.required %}<span style="color:red;">*</span>{% endif %}</td>
+        <td>{{ field }}
+         {% if field.errors %}
+            {% for error in field.errors %}
+            <span style="color:red;">{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
+
+        <tr>
+            <td class="tableleft"></td>
+            <td>
+                <button type="submit" class="btn btn-primary" type="button">保存</button>
+                &nbsp;&nbsp;<button type="button" class="btn btn-success" onclick="url_for('/product/index')">返回列表</button>
+            </td>
+        </tr>
+    </table>
+</form>
+{% endblock%}

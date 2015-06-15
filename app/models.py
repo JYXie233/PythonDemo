@@ -81,3 +81,31 @@ class Sex(db.Model):
 
     def __repr__(self):
         return '<Post %r>' % (self.sex)
+
+class Productstatus(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    statusname = db.Column(db.String(20))
+    status = db.Column(db.Integer)
+    products=db.relationship('Product',backref='status',lazy='dynamic')
+
+    def __repr__(self):
+        return '<Post %r>' % (self.sex)
+
+class Product(db.Model):
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(120))
+    body = db.Column(db.Text)
+    description = db.Column(db.Text)
+    price = db.Column(db.String(20))
+    vipprice = db.Column(db.String(20))
+    shopkeeper=db.Column(db.String(20))
+    yieldly=db.Column(db.String(20))#产地
+    sellcount = db.Column(db.Integer)
+    image = db.Column(db.String(200))
+    url =  db.Column(db.String(200))
+    status_id = db.Column(db.Integer, db.ForeignKey('productstatus.id'))
+    createdate = db.Column(db.DateTime)
+    editdate = db.Column(db.DateTime)
+
+    def __repr__(self):
+        return '<Post %r>' % (self.title)

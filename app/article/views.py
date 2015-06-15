@@ -3,7 +3,7 @@ __author__ = 'Tom'
 from flask import flash,Blueprint,redirect,render_template,request,url_for,session,g,json,make_response
 from flask.ext.login import login_user, login_required, logout_user,current_user
 from app.models import User,Post
-from app import db,bcrypt,app
+from app import db,bcrypt,app,checkAdmin
 from app.utils.ImageUtils import create_validate_code
 import StringIO,datetime
 from .forms import ArticleForm
@@ -23,6 +23,7 @@ article_bp = Blueprint(
 @article_bp.route('/')
 @article_bp.route('/index')
 @login_required
+@checkAdmin
 def index():
     if not g.user.isadmin:
         return redirect(url_for('users.login'))
@@ -31,6 +32,7 @@ def index():
 
 @article_bp.route('/del/<id>')
 @login_required
+@checkAdmin
 def delete(id):
     if not g.user.isadmin:
         return redirect(url_for('users.login'))
@@ -41,6 +43,7 @@ def delete(id):
 
 @login_required
 @article_bp.route('/add/', methods=['GET', 'POST'])
+@checkAdmin
 def add():
     if not g.user.isadmin:
         return redirect(url_for('users.login'))
@@ -67,6 +70,7 @@ def add():
 @article_bp.route('/edit/<id>', methods=['GET'])
 @article_bp.route('/edit/<id>',methods=['POST'])
 @login_required
+@checkAdmin
 def edit(id):
     if not g.user.isadmin:
         return redirect(url_for('users.login'))

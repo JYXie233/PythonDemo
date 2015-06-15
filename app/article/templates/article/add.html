@@ -22,8 +22,8 @@
         </tr>
             <tr>
                 <td>
-                    <script id="editor" type="text/plain" style="width:100%;height:500;"></script>
-                    {{form.body(id="bodyForm",type="hidden")}}
+
+                    {{form.body(id="editor")}}
                     {% if form.body.errors %}
             {% for error in form.body.errors %}
             <span style="color:red;">{{ error }}</span>
